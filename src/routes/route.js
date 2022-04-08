@@ -57,32 +57,33 @@ res.send(getMovies())
 
 //Problem 5:
 router.get('/films/:filmId', function(req, res) {
-    // function getFilmId(){
-    let x=[ {
-        'id': 1,
-        'name': 'The Shining'
-       }, {
-        'id': 2,
-        'name': 'Incendies'
-       }, {
-        'id': 3,
-        'name': 'Rang de Basanti'
-       }, {
-        'id': 4,
-        'name': 'Finding Nemo'
-       }]
+
+  let x=[ {
+    'id': 1,
+    'name': 'The Shining'
+   }, {
+    'id': 2,
+    'name': 'Incendies'
+   }, {
+    'id': 3,
+    'name': 'Rang de Basanti'
+   }, {
+    'id': 4,
+    'name': 'Finding Nemo'
+   }]
+    function getFilmId(){
        for(let i=0;i<x.length;i++){
-    //    if(req.params.filmId==x[i].id){
-    //        return x[i]
-    //    }else if(req.params.filmId!==x[i].id){
-    //        return "No movie exists with this id"
-    //    }
-
-
-     const w=(req.params.filmId==x[i].id) ? x[i] : "No movie exists with this id"
-     res.send(w)
-     }
-     
+       if(req.params.filmId==x[i].id && x[i]!==undefined){
+         var q=   x[i]
+        } else if(req.params.filmId>x.length){
+           q= "No movie exists with this id"
+        
+        }
+    
+       }
+      return q
+     } 
+     res.send(getFilmId())  
 });
 
 
