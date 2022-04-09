@@ -1,23 +1,86 @@
 const express = require('express');
 const logger = require('./logger')
-
 const router = express.Router();
 
-router.get('/user-profile/:abcd', function(req, res) {
-    console.log(req)
-    console.log(req.params.abcd)
-    res.send('dummy response')
-})
 
-router.get('/test-me', function (req, res) {
-    console.log('------------------')
-    console.log(req)
-    console.log('------------------')
-    console.log('These are the request query parameters: ', req.query)
-    res.send('My first ever api!')
+//problem 1:
+router.get('/movies', function(req, res) {
+    
+    res.send(["PK","Taree Zamee Par","KKKG","DDLJ"])
 });
 
 
+// //problem 2:
+// router.get( '/movies/:indexNumber', function (req, res) {
+//    let arr= ["PK","Taree Zamee Par","KKKG","DDLJ"]
+//    let a=req.params.indexNumber;
+//      res.send(arr.at(a));
+// });
+
+//problem 3:
+router.get( '/movies/:indexNumber', function (req, res) {
+    function getMovies(){
+    let arr= ["PK","Taree Zamee Par","KKKG","DDLJ"]
+    let a=req.params.indexNumber;
+    if(arr.length>=a){
+      return arr.at(a)
+    }else if(a>arr.length){
+      return "Please Enter Valid Number."
+    }
+}
+res.send(getMovies())
+ });
+
+
+// //problem 4:
+// router.get('/films',function(req,res){
+// let x=[ {
+//     'id': 1,
+//     'name': 'The Shining'
+//    }, {
+//     'id': 2,
+//     'name': 'Incendies'
+//    }, {
+//     'id': 3,
+//     'name': 'Rang de Basanti'
+//    }, {
+//     'id': 4,
+//     'name': 'Finding Nemo'
+//    }]
+//    res.send(x)
+// });
+
+
+//Problem 5:
+router.get('/films/:filmId', function(req, res) {
+  let x=[ {
+    'id': 1,
+    'name': 'The Shining'
+   }, {
+    'id': 2,
+    'name': 'Incendies'
+   }, {
+    'id': 3,
+    'name': 'Rang de Basanti'
+   }, {
+    'id': 4,
+    'name': 'Finding Nemo'
+   }]
+    function getFilmId(){
+       for(let i=0;i<x.length;i++){
+       if(req.params.filmId==x[i].id && x[i]!==undefined){
+         var q=   x[i]
+        } else if(req.params.filmId>x.length){
+           q= "No movie exists with this given id"
+        
+        }
+    
+       }
+      return q
+     } 
+     res.send(getFilmId())  
+});
+//--------------------------------------------------------------------//
 
 
 module.exports = router;
