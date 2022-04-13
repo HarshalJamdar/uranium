@@ -13,7 +13,7 @@ const bookSchema = new mongoose.Schema( {
         default : 2021
     },
 
-    tags : [],
+    tags : [String],
 
     isPublished: Boolean,
 
@@ -30,7 +30,7 @@ const bookSchema = new mongoose.Schema( {
 }, { timestamps: true });
 
 
-module.exports = mongoose.model('NewBook', bookSchema) //newbooks
+module.exports = mongoose.model('Library', bookSchema) //newbooks
 
 //Validation:
 //require:true

@@ -15,13 +15,17 @@ const createBook= async function (req, res) {
 
 
      const getBooksInYear= async function (req, res) {
-     let savedData= await BookModel.find({year:2022})
+     let savedData= await BookModel.find({year: req.body.year})
      res.send({msg: savedData})
    }
 
 const getParticularBooks= async function (req, res) {
-    let savedData= await BookModel.find({ authorName : "ABC" , isPublished: true  })
-    res.send({msg: savedData})
+
+    let condition = req.body
+    let particularBooks = await BookModel.find(condition)
+  
+    res.send(particularBooks)
+  
 }
 
 const getXINRBooks= async function (req, res) {
