@@ -18,6 +18,7 @@ router.get("/test-me", function (req, res) {
 
 router.get('/basicRoute', UserController.basicCode)
 
+router.get('/basicCode', UserController.basicCode)
 
 
 module.exports = router;

@@ -10,11 +10,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //--------Global Middleware------------//
 const midGlb= function (req,res,next){
+    let log=true
+    if(log==true){
     console.log("Hi I am global middleware!")
     console.log(moment().format())
     console.log(req.ip)
     console.log(req.path)
     next()
+}else{
+    res.send({msg: "you are not logged in."})
+}
 }
 
 app.use(midGlb)
