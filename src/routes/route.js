@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 // const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
-//const BookController= require("../controllers/bookController")
+const CommonController= require("../controllers/commonController")
+const CommonMW= require("../middlewares/commonMiddlewares")
 
 
 router.get("/test-me", function (req, res) {
@@ -10,6 +11,17 @@ router.get("/test-me", function (req, res) {
 })
 
 
+router.post("/createProduct", CommonController.createProduct  )
+router.post("/createUser", CommonMW.free,CommonController.createUser  )
+router.post("/createOrder", CommonMW.free,CommonMW.objectId,CommonController.createOrder  )
+
+
+
+
+
+
+module.exports = router;
+//---------------------------------------------------------------------//
 // router.post("/createUser", UserController.createUser  )
 // router.get("/getUsersData", UserController.getUsersData)
 
@@ -41,8 +53,8 @@ router.get("/test-me", function (req, res) {
 
 
 
-router.get("/basicRoute", UserController.basicCode)
-router.post('/create-a-user', UserController.createAUser)
+// router.get("/basicRoute", UserController.basicCode)
+// router.post('/create-a-user', UserController.createAUser)
 
 
 
@@ -53,4 +65,4 @@ router.post('/create-a-user', UserController.createAUser)
 
 
 
-module.exports = router;
+// module.exports = router;
