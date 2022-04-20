@@ -4,7 +4,7 @@ var app = require("express")();
 
 
 const mid1= function(req,res,next){
-
+    console.log("Hi, I am Route Middleware!")
     console.log(moment().format())
     next()
 }

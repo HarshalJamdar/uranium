@@ -19,6 +19,13 @@ res.send({msg: "Everything working properly. Assignment is done."})
 
 
 
+//----------both middleware will work as next()function is given-----------//
+const basicCode1 = async function(req,res,next){
+    res.send({msg: "Everything working properly. Assignment is done1."})
+    next()
+    }
+
 module.exports.basicCode= basicCode
+module.exports.basicCode1= basicCode1
 // module.exports.createUser= createUser
 // module.exports.getUsersData= getUsersData

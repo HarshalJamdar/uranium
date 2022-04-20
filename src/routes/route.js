@@ -12,7 +12,10 @@ router.get("/test-me", function (req, res) {
 
 ///--------------------------router middleware-------------//
 
-// router.get('/basicRoute', commonMW.mid1,commonMW.mid2,commonMW.mid3,UserController.basicCode)
+router.get('/basicRoute', commonMW.mid1,commonMW.mid2,commonMW.mid3,UserController.basicCode)
+
+
+
 
 //--------------Global Middleware---------------//
 
@@ -20,6 +23,10 @@ router.get('/basicRoute', UserController.basicCode)
 
 router.get('/basicCode', UserController.basicCode)
 
+
+
+//---------------------Both Middleware working(global and route middleware)----------------------------//
+router.get('/basicCode1', commonMW.mid1,commonMW.mid2,commonMW.mid3,UserController.basicCode1)
 
 module.exports = router;
 

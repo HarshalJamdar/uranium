@@ -16,6 +16,8 @@ const midGlb= function (req,res,next){
     console.log(moment().format())
     console.log(req.ip)
     console.log(req.path)
+    console.log(req.url)
+    console.log(req.originalUrl)
     next()
 }else{
     res.send({msg: "you are not logged in."})
@@ -23,12 +25,12 @@ const midGlb= function (req,res,next){
 }
 
 app.use(midGlb)
-app.use( '/',route)
+// app.use( '/',route)
 //------------------------------------//
 
 //--------router middleware------------//
 
-// app.use('/', route);
+app.use('/', route);
 
 //-------------------------------------//
 
