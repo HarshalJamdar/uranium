@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema( {
     lastName: String,
     mobile: {
         type: String,
-
         required: true
     },
     emailId: String,
@@ -19,6 +18,7 @@ const userSchema = new mongoose.Schema( {
     default : false
     },
     age: Number,
+    posts: String
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema)
