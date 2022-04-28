@@ -25,10 +25,11 @@ const createBlog = async function (req, res) {
   }
 };
 
-//----------------------------------------------------------------------//
+//--------------------------------------------------------------------------//
 
 const getBlog = async function (req, res) {
   try {
+    let param = req.query
     let paramCat = req.query.category;
     let paramSub = req.query.subCategory;
     let paramId = req.query.authorId;
@@ -43,7 +44,7 @@ const getBlog = async function (req, res) {
       ],
     });
 
-    if (division.length != 0) {
+    if (division.length != 0 && param ==0 ) {
       let data = division.filter(
         (x) => x.ispublished === true && x.isDeleted === false
       );
@@ -63,14 +64,14 @@ const getBlog = async function (req, res) {
   }
 };
 
-//------------------------------------------------------------//
+//-------------------------------------------------------------------------//
 
 
 const updateBlog = async function (req, res) {
   try{
   let blogId = req.params.blogId;
   let Body = req.body;
-  const { title, body, tags, subCategory } = Body;
+  const { title, body, tags, subCategory } = Body; 
   let blog = await blogModel.findOne({ _id: blogId });
 
   if (!blog) {
@@ -101,7 +102,7 @@ const updateBlog = async function (req, res) {
 }
 };
 
-//--------------------------------------------------------//
+//--------------------------------------------------------------------------//
 
 const deleteBlog = async function (req, res) {
   try{
