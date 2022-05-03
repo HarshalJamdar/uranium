@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose');
 
 
+
+//---CREATE BLOG
 const createBlog = async function (req, res) {
 
   //try-statement defines a code-block to run if there is an error or undefined variable then it handle catch-statement to handle the error.
@@ -17,7 +19,7 @@ const createBlog = async function (req, res) {
 
     if (arr.length == 0) return res.status(400).send({ staus: false, Error: "Invalid request. Please provide Details" })
     else if (!blog.title) return res.status(400).send({ staus: false, Error: "title is required" })
-    else if (!blog.body) return res.status(400).send({ staus: false, Error: "body is required" })
+    else if (!blog.body) return res.status(400).send({ staus: false, Error: "Blog body is required" })
     else if (!blog.authorId) return res.status(400).send({ staus: false, Error: "authorId is required" })
     else if (mongoose.Types.ObjectId.isValid(req.body.authorId) == false) return res.status(400).send({ staus: false, Error: "Author Id is Invalid" })
     else if (!blog.tags) return res.status(400).send({ staus: false, Error: "tags is required" })
@@ -54,7 +56,7 @@ const createBlog = async function (req, res) {
 
 
 
-
+//---GET BLOGS(ALL BLOGS OR USING FILTER)
 const getBlog = async function (req, res) {
   try {
 
@@ -118,6 +120,9 @@ const getBlog = async function (req, res) {
 
 //-----------------------------------------------------------------------------------------//
 
+//NOTE:Author can delete and update only his blogs not others.
+
+//---UPDATE BLOG
 const updateBlog = async function (req, res) {
   try {
 
@@ -148,7 +153,7 @@ const updateBlog = async function (req, res) {
           {
             title: title,
             body: body,
-            $addToSet: { tags: tags, subCategory: subCategory },
+            $addToSet: { tags: tags, subCategory: subCategory },  //we are adding tags and subcategory not replacing it, thats why using $addToSet
             ispublished: Body.ispublished,
           },
           { new: true }
@@ -179,17 +184,12 @@ const updateBlog = async function (req, res) {
   }
 };
 
-
-
-
-
-
 //------------------------------------------------------------------------------------------//
 
+
+//---DELETE BLOG USING BLOG ID
 const deleteBlog = async function (req, res) {
   try {
-
-
     let authorLoggedIn = req["authorId"]
 
     let blogId = req.params.blogId;
@@ -238,7 +238,7 @@ const deleteBlog = async function (req, res) {
 //------------------------------------------------------------------------------------------//
 
 
-
+//---DELETE BLOG USING FILTER
 const deleteBlog1 = async function (req, res) {
   try {
 
@@ -330,84 +330,25 @@ module.exports.deleteBlog1 = deleteBlog1;
 
 
 
+//-------------------------------------------------------------------//
+//----------NOTE-----------------//
+
+//NOTE: NEED TO GIVE TOKEN IN REQUEST HEADER FOR EACH API.
+//CREATE BLOG INPUT
+// {
+//   "title":"Happy's blog",
+//   "body":"Language",
+//   "authorId":"627138ed82ff026a2ad2837b",     //whoever login only his authorid should come here. otherwise update and delete will not work.
+//   "tags":"tech",
+//   "category":"Language",
+//   "subCategory":"Software",
+//   "isDeleted":"true",
+//   "ispublished":"true"
+// }
 
 
-
-
-
-
-
- // let token = req.headers["x-Api-key"] || req.headers["x-api-key"];
-  // let decodedtoken = jwt.verify(token, "project1-uranium");
-  // let authorLoggedIn = decodedtoken.authorId;
-
-
-
-
-
-
-// const updateBlog = async function (req, res) {
-//   try {
-//     let token = req.headers["x-Api-key"] || req.headers["x-api-key"];
-//     let decodedtoken = jwt.verify(token, "project1-uranium");
-//     let authorLoggedIn = decodedtoken.authorId;
-//     console.log(authorLoggedIn)
-//     //let authorLoggedIn = req["authorId"]
-
-//     let blogId = req.params.blogId;
-//     let Body = req.body;
-//     const { title, body, tags, subCategory } = Body;
-
-
-//     const isValidObjectId = function(objectId) {
-//       return mongoose.Types.ObjectId.isValid(objectId)
-//       }
-//       console.log(isValidObjectId(blogId))
-//       if(isValidObjectId(blogId)== false){
-//         res.status(400).send({ msg: "Please Provide valid Blog Id." });
-//       }else{
-//       let blog = await blogModel
-//       .findOne({ _id: blogId })
-//       .select({ _id: 0, authorId: 1 });
-
-//     if (blog == null) {
-//       res.status(404).send({ status: false, msg: "Blog does not exist." }); //blog Id does not exist becouse id is not from blog collection. Here we are checking blog id from path param.
-//     } else if (authorLoggedIn == blog.authorId) {
-//       console.log(blog.authorId);
-//       console.log(authorLoggedIn);
-
-//       const updateBlogs = await blogModel
-//         .findOneAndUpdate(
-//           { _id: blogId },
-//           {
-//             title: title,
-//             body: body,
-//             $addToSet: { tags: tags, subCategory: subCategory },
-//             ispublished: true,
-//           },
-//           { new: true }
-//         )
-//         .populate("authorId");
-//       res.status(200).send({ status: true, date: updateBlogs });
-//     } else {
-//       res.status(401).send({ status: false, msg: "Not authorised" });
-//     }
-//    }
-// } catch (err) {
-//     res
-//       .status(500)
-//       .send({
-//         status: false,
-//         msg: "Server not responding",
-//         error: err.message,
-//       });
-//   }
-// };
-
-
-// let token = req.headers["x-Api-key"] || req.headers["x-api-key"];
-    // let decodedtoken = jwt.verify(token, "project1-uranium");
-    // let authorLoggedIn = decodedtoken.authorId;
+//GET INPUT 
+//only token in header and you can also give filters(combinations of tags, category, subcategory, authorid) in query param.
 
 
 
@@ -416,46 +357,43 @@ module.exports.deleteBlog1 = deleteBlog1;
 
 
 
-// const getBlog = async function (req, res) {
-//   try {
-//     let Category = req.query.category;
-//     let SubCategory = req.query.subCategory;
-//     let Id = req.query.authorId;
-//     let Tags = req.query.tags;
 
-//     let division = await blogModel.find({
-//       $or: [
-//         { authorId: Id },
-//         { category: Category },
-//         { subCategory: SubCategory },
-//         { tags: Tags },
-//       ],
-//     });
 
-//     if (division.length != 0) {
-//       let data = division.filter(
-//         (x) => x.ispublished === true && x.isDeleted === false
-//       );
 
-//       if (data) {
-//         res.status(200).send({ status: true, msg: data });
-//       } else {
-//         res.status(404).send({ status: false, msg: "Blog does not exist!" });
-//       }
-//     } else {
-//       let blog = await blogModel
-//         .find({ ispublished: true, isDeleted: false })
-//         .populate(authorId);
-//       // console.log(blog)
-//       res.status(200).send({ status: true, msg: blog });
-//     }
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .send({
-//         status: false,
-//         msg: "Server not responding",
-//         error: err.message,
-//       });
-//   }
-// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

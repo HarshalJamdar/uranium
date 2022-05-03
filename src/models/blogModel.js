@@ -23,7 +23,8 @@ const blogsSchema = new mongoose.Schema( {
         type:String,
         required: true,
     },
-    subCategory:[String], 
+    subCategory:[String],
+     
     createAt:Date,
     updateAt:Date,
 
